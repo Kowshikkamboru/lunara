@@ -1,0 +1,8 @@
+{
+  "name": "Lunara",
+  "description": "A premium, animation-driven biotechnology landing page featuring interactive 3D visualizations for visual-neural signal restoration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
