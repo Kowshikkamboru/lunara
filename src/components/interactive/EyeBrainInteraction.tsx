@@ -153,32 +153,74 @@ export function EyeBrainInteraction() {
           className="w-full h-full absolute inset-0 font-sans z-0"
         >
           <defs>
-            <linearGradient id="glassy" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#818cf8" stopOpacity="0.05" />
+            {/* 3D Gradients */}
+            <radialGradient id="eye-sphere" cx="40%" cy="40%" r="60%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#dbeafe" stopOpacity="0.6" />
+              <stop offset="80%" stopColor="#60a5fa" stopOpacity="0.2" />
+              <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0.9" />
+            </radialGradient>
+            
+            <radialGradient id="iris-texture" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#0f172a" />
+              <stop offset="20%" stopColor="#0ea5e9" />
+              <stop offset="80%" stopColor="#0369a1" />
+              <stop offset="100%" stopColor="#082f49" />
+            </radialGradient>
+
+            <linearGradient id="lens-3d" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#93c5fd" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0.8" />
             </linearGradient>
-            <linearGradient id="brain-glass" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#818cf8" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#312e81" stopOpacity="0.05" />
+
+            <linearGradient id="nerve-3d" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#0f172a" stopOpacity="0.8" />
+              <stop offset="30%" stopColor="#38bdf8" stopOpacity="0.4" />
+              <stop offset="70%" stopColor="#38bdf8" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#0f172a" stopOpacity="0.8" />
             </linearGradient>
-            <linearGradient
-              id="organ-glass"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="100%"
-            >
-              <stop offset="0%" stopColor="#e2e8f0" stopOpacity="0.15" />
-              <stop offset="100%" stopColor="#94a3b8" stopOpacity="0.05" />
+
+            <radialGradient id="brain-volume" cx="40%" cy="30%" r="70%">
+              <stop offset="0%" stopColor="#c7d2fe" stopOpacity="0.7" />
+              <stop offset="50%" stopColor="#6366f1" stopOpacity="0.5" />
+              <stop offset="80%" stopColor="#312e81" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#1e1b4b" stopOpacity="0.95" />
+            </radialGradient>
+
+            <radialGradient id="cerebellum-volume" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#f472b6" stopOpacity="0.5" />
+              <stop offset="70%" stopColor="#831843" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#4c0519" stopOpacity="0.95" />
+            </radialGradient>
+
+            <linearGradient id="brainstem-3d" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#1e293b" stopOpacity="0.9" />
+              <stop offset="50%" stopColor="#94a3b8" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#0f172a" stopOpacity="0.9" />
             </linearGradient>
+
+            <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="10" stdDeviation="10" floodColor="#000000" floodOpacity="0.6" />
+            </filter>
+
+            <filter id="inner-glow">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur" />
+              <feFlood floodColor="#38bdf8" floodOpacity="0.5" result="glowColor" />
+              <feComposite in="glowColor" in2="blur" operator="in" result="glow" />
+              <feMerge>
+                <feMergeNode in="glow" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
           </defs>
 
           {/* ==== INCOMING LIGHT WAVES ==== */}
           <motion.path
-            d="M 20 280 L 140 280"
+            d="M 20 280 L 120 280"
             fill="none"
             stroke={active.lightColor}
-            strokeWidth="6"
+            strokeWidth="8"
             strokeLinecap="round"
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: [0, 1, 0] }}
@@ -187,13 +229,13 @@ export function EyeBrainInteraction() {
               repeat: Infinity,
               ease: "linear",
             }}
-            style={{ filter: `drop-shadow(0 0 10px ${active.lightColor})` }}
+            style={{ filter: `drop-shadow(0 0 12px ${active.lightColor})` }}
           />
           <motion.path
-            d="M 20 320 L 130 320"
+            d="M 20 320 L 110 320"
             fill="none"
             stroke={active.lightColor}
-            strokeWidth="10"
+            strokeWidth="12"
             strokeLinecap="round"
             initial={{ x: -80, opacity: 0 }}
             animate={{ x: 20, opacity: [0, 1, 0] }}
@@ -203,212 +245,151 @@ export function EyeBrainInteraction() {
               repeat: Infinity,
               ease: "linear",
             }}
-            style={{ filter: `drop-shadow(0 0 10px ${active.lightColor})` }}
+            style={{ filter: `drop-shadow(0 0 15px ${active.lightColor})` }}
           />
 
           {/* =========================================
-                  MODULE 1: ANATOMICAL EYE CROSS-SECTION 
+                  MODULE 1: OCULAR RECEPTOR 
                  ========================================= */}
+          {/* Module 1 Box */}
+          <rect x="90" y="100" width="310" height="380" fill="none" stroke="rgba(255,255,255,0.15)" strokeDasharray="5 5" />
+          <polyline points="90,100 110,100" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
+          <polyline points="90,100 90,120" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
+          <polyline points="400,480 380,480" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
+          <polyline points="400,480 400,460" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
+          
+          <text x="100" y="125" fill="#94a3b8" fontSize="12" fontFamily="monospace" letterSpacing="1">
+            MODULE 01: OCULAR RECEPTOR
+          </text>
+
           <g
-            className="anatomy-eye cursor-pointer transition-all duration-300 hover:opacity-80"
+            className="anatomy-eye cursor-pointer transition-all duration-300 hover:opacity-90"
             onMouseEnter={() => setHoveredPart("eye")}
             onMouseLeave={() => setHoveredPart(null)}
           >
-            {/* Background Fill for the whole eye */}
+            {/* Sclera & Globe (3D Sphere) */}
             <path
               d="M 160 170 Q 90 300 160 430 A 130 130 0 0 0 350 350 L 350 250 A 130 130 0 0 0 160 170 Z"
-              fill="url(#glassy)"
-              stroke="#38bdf8"
-              strokeWidth="1"
-              opacity="0.4"
+              fill="url(#eye-sphere)"
+              filter="url(#drop-shadow)"
             />
 
-            {/* Vitreous Body */}
+            {/* Retina (Inner Neural Layer) Glow */}
             <path
-              d="M 180 190 A 110 110 0 0 0 340 350 L 340 250 A 110 110 0 0 0 180 190 Z"
-              fill="rgba(255,255,255,0.02)"
-              stroke="#38bdf8"
-              strokeWidth="1"
-              strokeDasharray="4 4"
-              opacity="0.6"
-            />
-
-            {/* Sclera (Outer White Layer) */}
-            <path
-              d="M 160 170 A 130 130 0 0 1 350 250 M 350 350 A 130 130 0 0 1 160 430"
+              d="M 170 190 A 110 110 0 0 1 335 260 M 335 340 A 110 110 0 0 1 170 410"
               fill="none"
-              stroke="#e2e8f0"
-              strokeWidth="3"
+              stroke="#38bdf8"
+              strokeWidth="4"
               opacity="0.8"
+              filter="url(#inner-glow)"
             />
 
             {/* Choroid (Middle Vascular Layer) */}
             <path
               d="M 165 180 A 120 120 0 0 1 345 255 M 345 345 A 120 120 0 0 1 165 420"
               fill="none"
-              stroke="#818cf8"
+              stroke="#ef4444"
               strokeWidth="2"
-              opacity="0.6"
+              opacity="0.4"
             />
 
-            {/* Retina (Inner Neural Layer) */}
+            {/* Fovea centralis */}
             <path
-              d="M 170 190 A 110 110 0 0 1 335 260 M 335 340 A 110 110 0 0 1 170 410"
+              d="M 335 260 C 355 280 355 320 335 340"
               fill="none"
               stroke="#38bdf8"
-              strokeWidth="2"
-              opacity="0.9"
+              strokeWidth="5"
+              filter="url(#inner-glow)"
             />
 
-            {/* Fovea centralis (Macula Dip) */}
-            <path
-              d="M 335 260 C 360 280 360 320 335 340"
-              fill="none"
-              stroke="#38bdf8"
-              strokeWidth="3"
-            />
-
-            {/* Cornea (Front Bulge) */}
+            {/* Cornea (Front Bulge 3D) */}
             <path
               d="M 160 170 Q 90 300 160 430"
               fill="none"
-              stroke="#38bdf8"
+              stroke="rgba(255,255,255,0.6)"
+              strokeWidth="6"
+              strokeLinecap="round"
+            />
+            {/* Cornea Highlight */}
+            <path
+              d="M 140 200 Q 110 250 120 320"
+              fill="none"
+              stroke="#ffffff"
               strokeWidth="3"
-              opacity="0.6"
+              strokeLinecap="round"
+              opacity="0.8"
+              style={{ filter: "blur(2px)" }}
             />
 
-            {/* Lens */}
+            {/* Iris (Realistic texture) */}
+            <ellipse cx="163" cy="230" rx="4" ry="25" fill="url(#iris-texture)" transform="rotate(20 163 230)" />
+            <ellipse cx="163" cy="370" rx="4" ry="25" fill="url(#iris-texture)" transform="rotate(-20 163 370)" />
+
+            {/* Lens (3D) */}
             <ellipse
-              cx="180"
+              cx="185"
               cy="300"
-              rx="18"
-              ry="60"
-              fill="#cbd5e1"
-              stroke="#64748b"
-              strokeWidth="2"
-              opacity="0.9"
+              rx="15"
+              ry="50"
+              fill="url(#lens-3d)"
+              filter="url(#drop-shadow)"
             />
+            {/* Lens Highlight */}
+            <path d="M 175 270 Q 170 300 175 330" fill="none" stroke="#ffffff" strokeWidth="2" opacity="0.6" style={{ filter: "blur(1px)" }} />
+            
+            {/* Macula/Retina active dots */}
+            <motion.circle cx="342" cy="280" r="2" fill="#22d3ee" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.5, repeat: Infinity }} />
+            <motion.circle cx="345" cy="300" r="2.5" fill="#22d3ee" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.5, delay: 0.3, repeat: Infinity }} />
+            <motion.circle cx="342" cy="320" r="2" fill="#22d3ee" animate={{ opacity: [0.2, 1, 0.2] }} transition={{ duration: 1.5, delay: 0.6, repeat: Infinity }} />
 
-            {/* Iris (Top and Bottom) */}
-            <path
-              d="M 163 178 L 175 235 L 150 230 Z"
-              fill="url(#glassy)"
-              stroke="#38bdf8"
-              strokeWidth="1"
-            />
-            <path
-              d="M 163 422 L 175 365 L 150 370 Z"
-              fill="url(#glassy)"
-              stroke="#38bdf8"
-              strokeWidth="1"
-            />
-
-            {/* --- EYE LABELS --- */}
-            {/* Sclera */}
-            <polyline
-              points="230,110 250,110 270,180"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="225" y="114" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Sclera
-            </text>
-
-            {/* Choroid */}
-            <polyline
-              points="280,130 300,130 300,195"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="275" y="134" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Choroid
-            </text>
-
-            {/* Retina */}
-            <polyline
-              points="330,150 350,150 320,215"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="325" y="154" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Retina
-            </text>
-
-            {/* Fovea centralis */}
-            <polyline
-              points="420,200 400,200 345,280"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text
-              x="425"
-              y="204"
-              textAnchor="start"
-              fill="#cbd5e1"
-              fontSize="12"
-            >
-              Fovea centralis
-            </text>
-
-            {/* Vitreous Body */}
-            <polyline
-              points="260,500 280,500 250,370"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="255" y="504" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Vitreous body
-            </text>
-
-            {/* Lens */}
-            <polyline
-              points="100,500 120,500 170,365"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="95" y="504" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Lens
-            </text>
-
-            {/* Iris */}
-            <polyline
-              points="60,450 80,450 160,390"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="55" y="454" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Iris
-            </text>
-
+            {/* Labels (from Image 2) */}
             {/* Cornea */}
-            <polyline
-              points="60,110 80,110 135,210"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="55" y="114" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Cornea
-            </text>
+            <polyline points="120,180 120,150 140,150" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="2 2" />
+            <text x="145" y="154" textAnchor="start" fill="#cbd5e1" fontSize="12" fontFamily="monospace">Cornea</text>
+
+            {/* Outer dotted glow (like in Image 2) */}
+            <path d="M 160 150 Q 80 300 160 450" fill="none" stroke="#f59e0b" strokeWidth="3" strokeDasharray="4 8" opacity="0.8" />
+            
+            {/* Blue Y-shape (from Image 2 inside the eye) */}
+            <path d="M 195 300 L 250 250 M 195 300 L 250 350 M 195 300 L 165 300" fill="none" stroke="#38bdf8" strokeWidth="4" filter="url(#inner-glow)" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="195" cy="300" r="6" fill="#0ea5e9" filter="url(#inner-glow)" />
+
           </g>
 
           {/* =========================================
-                  MODULE 2: OPTIC NERVE & NEURAL SIGNALS 
-                  (Placed behind Eye and Brain to connect them smoothly)
+                  MODULE 2: NEURAL PATHWAY 
                  ========================================= */}
+          {/* Module 2 Box */}
+          <rect x="360" y="210" width="350" height="180" fill="none" stroke="rgba(255,255,255,0.15)" strokeDasharray="5 5" />
+          <text x="370" y="235" fill="#94a3b8" fontSize="12" fontFamily="monospace" letterSpacing="1">
+            MODULE 02: NEURAL PATHWAY
+          </text>
+
           <g
-            className="anatomy-nerve cursor-pointer transition-all duration-300 hover:opacity-80"
+            className="anatomy-nerve cursor-pointer transition-all duration-300 hover:opacity-90"
             onMouseEnter={() => setHoveredPart("opticNerve")}
             onMouseLeave={() => setHoveredPart(null)}
           >
+            {/* 3D Optic Nerve Tube */}
+            <path
+              d="M 330 270 Q 550 270 770 290 L 770 350 Q 550 330 330 330 Z"
+              fill="url(#nerve-3d)"
+              filter="url(#drop-shadow)"
+            />
+
+            {/* Optic Chiasm Bulge (from Image 2) */}
+            <ellipse cx="550" cy="300" rx="35" ry="40" fill="url(#nerve-3d)" filter="url(#drop-shadow)" />
+            <ellipse cx="550" cy="300" rx="25" ry="30" fill="rgba(15,23,42,0.8)" />
+
             {/* Pulsating Glow for Optic Nerve */}
             <motion.path
               d="M 330 300 Q 550 300 770 320"
               fill="none"
-              strokeWidth="50"
+              strokeWidth="40"
               strokeLinecap="round"
               animate={{
                 stroke: active.nerveGlowColor,
-                opacity: [0.1, 0.8, 0.1],
+                opacity: [0.1, 0.6, 0.1],
               }}
               transition={{
                 duration: active.pulseDuration,
@@ -418,29 +399,9 @@ export function EyeBrainInteraction() {
               style={{ filter: "blur(12px)" }}
             />
 
-            {/* Optic Nerve Outline - Sweeping directly from eye to brain */}
-            <motion.path
-              d="M 330 300 Q 550 300 770 320"
-              fill="none"
-              strokeWidth="45"
-              strokeLinecap="round"
-              opacity="0.15"
-              animate={{ stroke: active.nerveOuterColor }}
-              transition={{ duration: 1 }}
-            />
-            <motion.path
-              d="M 330 300 Q 550 300 770 320"
-              fill="none"
-              strokeWidth="35"
-              strokeLinecap="round"
-              opacity="0.1"
-              animate={{ stroke: active.nerveCoreColor }}
-              transition={{ duration: 1 }}
-            />
-
             {/* Active Signal Streams */}
             <motion.path
-              d="M 330 290 Q 550 290 770 310"
+              d="M 330 285 Q 550 285 770 305"
               fill="none"
               stroke={active.signalColor}
               strokeWidth="4"
@@ -455,7 +416,7 @@ export function EyeBrainInteraction() {
               style={{ filter: `drop-shadow(0 0 8px ${active.signalColor})` }}
             />
             <motion.path
-              d="M 330 310 Q 550 310 770 330"
+              d="M 330 315 Q 550 315 770 335"
               fill="none"
               stroke={active.signalColor}
               strokeWidth="6"
@@ -471,22 +432,25 @@ export function EyeBrainInteraction() {
               style={{ filter: `drop-shadow(0 0 12px ${active.signalColor})` }}
             />
 
-            {/* Optic Nerve Label */}
-            <polyline
-              points="480,420 500,420 520,335"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="475" y="424" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Optic nerve
-            </text>
+            {/* Labels (from Image 2) */}
+            {/* Optic Chiasm */}
+            <polyline points="550,340 550,370 510,370" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="2 2" />
+            <text x="505" y="374" textAnchor="end" fill="#cbd5e1" fontSize="12" fontFamily="monospace">Optic Chiasm</text>
           </g>
 
           {/* =========================================
-                  MODULE 3: ANATOMICAL BRAIN CROSS-SECTION 
+                  MODULE 3: CORTICAL PROCESSING 
                  ========================================= */}
+          {/* Module 3 Box */}
+          <rect x="670" y="70" width="450" height="420" fill="none" stroke="rgba(255,255,255,0.15)" strokeDasharray="5 5" />
+          <polyline points="1120,490 1120,470" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
+          <polyline points="1120,490 1100,490" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
+          <text x="680" y="95" fill="#94a3b8" fontSize="12" fontFamily="monospace" letterSpacing="1">
+            MODULE 03: CORTICAL PROCESSING
+          </text>
+
           <g
-            className="anatomy-brain cursor-pointer transition-all duration-300 hover:opacity-80"
+            className="anatomy-brain cursor-pointer transition-all duration-300 hover:opacity-95"
             transform="translate(10, 0)"
             onMouseEnter={(e) => {
               e.stopPropagation();
@@ -501,205 +465,100 @@ export function EyeBrainInteraction() {
             <motion.circle
               cx="950"
               cy="270"
-              r="180"
+              r="220"
               fill={active.brainGlow}
-              style={{ filter: "blur(60px)", pointerEvents: "none" }}
-              animate={{ r: [180, 200, 180], opacity: [0.6, 1, 0.6] }}
+              style={{ filter: "blur(70px)", pointerEvents: "none" }}
+              animate={{ r: [220, 240, 220], opacity: [0.6, 1, 0.6] }}
               transition={{ duration: active.speed, repeat: Infinity }}
             />
 
-            {/* Cerebrum - Refined to match image */}
+            {/* Realistic Cerebrum 3D Mass */}
             <path
-              d="M 770 300 C 720 180, 800 60, 940 50 C 1100 40, 1220 120, 1240 250 C 1250 350, 1180 430, 1080 440 C 1000 450, 940 400, 930 360 C 880 340, 800 360, 770 300 Z"
-              fill="url(#brain-glass)"
-              stroke="#818cf8"
-              strokeWidth="1"
-              opacity="0.8"
+              d="M 770 300 C 720 170, 810 50, 950 40 C 1120 30, 1240 110, 1260 250 C 1270 360, 1190 440, 1080 450 C 1000 460, 930 400, 920 360 C 870 340, 800 360, 770 300 Z"
+              fill="url(#brain-volume)"
+              filter="url(#drop-shadow)"
             />
 
-            {/* Internal Cerebrum Gyri / Folds structure (Stylized) */}
+            {/* Realistic Brain Folds (Sulci & Gyri) */}
+            {/* Shadow lines */}
+            <g stroke="#0f172a" strokeWidth="4" fill="none" opacity="0.6" style={{ filter: "blur(2px)" }}>
+              <path d="M 810 220 Q 860 120 980 100 T 1100 130" />
+              <path d="M 850 170 Q 950 140 1050 180 T 1170 230" />
+              <path d="M 790 280 Q 880 230 960 270 T 1140 330" />
+              <path d="M 940 80 Q 1060 60 1180 140" />
+              <path d="M 1150 200 Q 1200 280 1170 360 T 1050 390" />
+              <path d="M 1100 280 Q 1160 340 1080 410" />
+              <path d="M 860 300 Q 890 270 930 290" />
+            </g>
+            {/* Highlight lines */}
+            <g stroke="#ffffff" strokeWidth="2" fill="none" opacity="0.2" style={{ filter: "blur(1px)" }}>
+              <path d="M 810 216 Q 860 116 980 96 T 1100 126" />
+              <path d="M 850 166 Q 950 136 1050 176 T 1170 226" />
+              <path d="M 790 276 Q 880 226 960 266 T 1140 326" />
+              <path d="M 940 76 Q 1060 56 1180 136" />
+              <path d="M 1150 196 Q 1200 276 1170 356 T 1050 386" />
+              <path d="M 1100 276 Q 1160 336 1080 406" />
+              <path d="M 860 296 Q 890 266 930 286" />
+            </g>
+
+            {/* Ventricular System */}
             <path
-              d="M 830 200 C 860 100 970 80 1040 120"
-              stroke="#818cf8"
-              strokeWidth="1"
-              fill="none"
-              opacity="0.4"
-            />
-            <path
-              d="M 910 110 C 1020 90 1140 160 1180 270"
-              stroke="#818cf8"
-              strokeWidth="1"
-              fill="none"
-              opacity="0.4"
-            />
-            <path
-              d="M 1150 200 C 1200 280 1170 360 1050 390"
-              stroke="#818cf8"
-              strokeWidth="1"
-              fill="none"
-              opacity="0.4"
+              d="M 950 230 C 970 190 1050 200 1080 240 C 1030 220 990 220 950 230 Z"
+              fill="#0f172a"
+              opacity="0.6"
+              filter="url(#inner-glow)"
             />
 
-            {/* Corpus Callosum (C-shape above ventricles) */}
-            <path
-              d="M 940 220 C 940 170 1070 150 1110 230 C 1050 200 990 190 940 220 Z"
-              fill="url(#organ-glass)"
-              stroke="#e2e8f0"
-              strokeWidth="1"
-            />
-
-            {/* Ventricular System (Blueish area below Corpus Callosum) */}
-            <path
-              d="M 960 230 C 980 190 1060 200 1080 240 C 1030 220 990 220 960 230 Z"
-              fill="url(#glassy)"
-              stroke="#38bdf8"
-              strokeWidth="1"
-            />
-
-            {/* Thalamus / Diencephalon (Purple oval center) */}
+            {/* Thalamus (3D Oval) */}
             <ellipse
               cx="1000"
               cy="270"
-              rx="35"
-              ry="25"
-              fill="url(#organ-glass)"
-              stroke="#818cf8"
-              strokeWidth="1"
+              rx="40"
+              ry="28"
+              fill="url(#brain-volume)"
+              filter="url(#drop-shadow)"
             />
+            <ellipse cx="1000" cy="270" rx="35" ry="24" fill="#312e81" opacity="0.5" />
 
-            {/* Hippocampus (Greenish curve wrapping Thalamus) */}
+            {/* Corpus Callosum (C-shape) */}
             <path
-              d="M 1000 295 C 950 300 940 330 950 360 C 960 320 990 310 1010 295 Z"
-              fill="url(#organ-glass)"
-              stroke="#2dd4bf"
-              strokeWidth="1"
-            />
-
-            {/* Pons (Orange Brainstem bulge) */}
-            <path
-              d="M 940 340 C 880 360 890 410 940 440 L 980 440 L 980 340 Z"
-              fill="url(#organ-glass)"
-              stroke="#94a3b8"
-              strokeWidth="1"
-            />
-
-            {/* Medulla oblongata (Yellow stalk below Pons) */}
-            <path
-              d="M 940 440 L 950 530 L 980 530 L 980 440 Z"
-              fill="url(#organ-glass)"
-              stroke="#64748b"
-              strokeWidth="1"
-            />
-
-            {/* Cerebellum (Pinkish mass at lower back) */}
-            <path
-              d="M 980 350 C 1060 300 1200 340 1160 460 C 1120 530 1000 490 980 450 Z"
-              fill="url(#brain-glass)"
+              d="M 930 220 C 930 160 1080 140 1120 230 C 1060 190 990 180 930 220 Z"
+              fill="#cbd5e1"
               opacity="0.8"
-              stroke="#6366f1"
-              strokeWidth="2"
+              filter="url(#drop-shadow)"
             />
 
-            {/* Cerebellum Texture (Folia lines) */}
+            {/* Brainstem (Midbrain, Pons, Medulla) */}
             <path
-              d="M 990 370 Q 1070 360 1130 400 M 985 390 Q 1070 380 1110 430 M 985 420 Q 1040 420 1090 460"
-              stroke="#6366f1"
-              strokeWidth="1.5"
-              fill="none"
-              opacity="0.7"
+              d="M 950 330 C 890 350 900 400 950 430 L 960 520 L 990 520 L 990 430 C 1020 400 1010 350 990 330 Z"
+              fill="url(#brainstem-3d)"
+              filter="url(#drop-shadow)"
             />
+            {/* Brainstem Highlights */}
+            <path d="M 950 430 C 920 400 920 370 950 350" stroke="#cbd5e1" strokeWidth="2" fill="none" opacity="0.4" />
 
-            {/* --- BRAIN LABELS --- */}
-            {/* Cerebrum */}
-            <polyline
-              points="790,130 810,130 880,160"
-              fill="none"
-              stroke="#64748b"
+            {/* Cerebellum (3D Mass at lower back) */}
+            <path
+              d="M 980 350 C 1060 300 1220 340 1180 460 C 1140 530 1000 490 980 450 Z"
+              fill="url(#cerebellum-volume)"
+              filter="url(#drop-shadow)"
             />
-            <text x="785" y="134" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Cerebrum
-            </text>
-
-            {/* Ventricular system */}
-            <polyline
-              points="850,170 870,170 970,225"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="845" y="174" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Ventricular system
-            </text>
-
-            {/* Corpus Callosum */}
-            <polyline
-              points="1200,180 1180,180 1100,210"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text
-              x="1205"
-              y="184"
-              textAnchor="start"
-              fill="#cbd5e1"
-              fontSize="12"
-            >
-              Corpus Callosum
-            </text>
-
-            {/* Hippocampus */}
-            <polyline
-              points="840,330 860,330 950,330"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="835" y="334" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Hippocampus
-            </text>
-
-            {/* Pons */}
-            <polyline
-              points="1130,410 1110,410 965,390"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text
-              x="1135"
-              y="414"
-              textAnchor="start"
-              fill="#cbd5e1"
-              fontSize="12"
-            >
-              Pons
-            </text>
-
-            {/* Cerebellum */}
-            <polyline
-              points="820,450 840,450 990,430"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="815" y="454" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Cerebellum
-            </text>
-
-            {/* Medulla oblongata */}
-            <polyline
-              points="850,500 870,500 945,470"
-              fill="none"
-              stroke="#64748b"
-            />
-            <text x="845" y="504" textAnchor="end" fill="#cbd5e1" fontSize="12">
-              Medulla oblongata
-            </text>
+            {/* Cerebellum Texture (Folia) */}
+            <g stroke="#4c0519" strokeWidth="2" fill="none" opacity="0.8" style={{ filter: "blur(0.5px)" }}>
+              <path d="M 990 370 Q 1070 360 1150 400 M 985 390 Q 1070 380 1130 430 M 985 420 Q 1040 420 1110 460 M 990 440 Q 1030 440 1080 480 M 1040 335 Q 1120 350 1170 390 M 1100 480 Q 1140 470 1160 450" />
+            </g>
+            <g stroke="#f9a8d4" strokeWidth="1" fill="none" opacity="0.3">
+              <path d="M 990 368 Q 1070 358 1150 398 M 985 388 Q 1070 378 1130 428 M 985 418 Q 1040 418 1110 458" />
+            </g>
 
             {/* =========================================
                      INTERACTIVE ORGANS (SCN & Pineal) 
                     ========================================= */}
 
-            {/* SCN (Suprachiasmatic Nucleus) - Master Clock (Placed in Hypothalamus area, front of Thalamus) */}
+            {/* SCN (Suprachiasmatic Nucleus) */}
             <g
-              transform="translate(920, 290)"
-              className="cursor-pointer transition-all duration-300 hover:opacity-80"
+              transform="translate(900, 290)"
+              className="cursor-pointer transition-all duration-300 hover:opacity-100"
               onMouseEnter={(e) => {
                 e.stopPropagation();
                 setHoveredPart("scn");
@@ -709,35 +568,38 @@ export function EyeBrainInteraction() {
                 setHoveredPart(null);
               }}
             >
+              {/* Outer Glow */}
               <motion.circle
                 cx="0"
                 cy="0"
-                r="12"
-                animate={{ fill: active.scnColor, scale: [1, 1.3, 1] }}
+                r="18"
+                fill={active.scnColor}
+                opacity="0.3"
+                animate={{ scale: [1, 1.5, 1] }}
                 transition={{ duration: active.speed, repeat: Infinity }}
-                style={{ filter: `drop-shadow(0 0 16px ${active.scnColor})` }}
+                style={{ filter: "blur(6px)" }}
               />
-              <polyline
-                points="-30,30 -15,30 -5,10"
-                fill="none"
-                stroke="rgba(255,255,255,0.4)"
+              {/* Core */}
+              <motion.circle
+                cx="0"
+                cy="0"
+                r="10"
+                fill={active.scnColor}
+                animate={{ fill: active.scnColor, scale: [1, 1.2, 1] }}
+                transition={{ duration: active.speed, repeat: Infinity }}
+                style={{ filter: `drop-shadow(0 0 10px ${active.scnColor})` }}
               />
-              <text
-                x="-35"
-                y="34"
-                fill="#f8fafc"
-                fontSize="12"
-                textAnchor="end"
-                fontWeight="bold"
-              >
-                SCN (Master Clock)
+              {/* Sci-fi Marker line */}
+              <polyline points="0,15 0,60 50,60" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="2 2" />
+              <text x="55" y="64" fill="#cbd5e1" fontSize="12" fontFamily="monospace">
+                Suprachiasmatic Nucleus <tspan x="55" y="80" fill="#64748b" fontSize="10">(Master Clock)</tspan>
               </text>
             </g>
 
-            {/* Pineal Gland (Melatonin Production) - (Placed behind Thalamus) */}
+            {/* Pineal Gland */}
             <g
-              transform="translate(1050, 275)"
-              className="cursor-pointer transition-all duration-300 hover:opacity-80"
+              transform="translate(1045, 275)"
+              className="cursor-pointer transition-all duration-300 hover:opacity-100"
               onMouseEnter={(e) => {
                 e.stopPropagation();
                 setHoveredPart("pineal");
@@ -747,33 +609,33 @@ export function EyeBrainInteraction() {
                 setHoveredPart(null);
               }}
             >
+              {/* Outer Glow */}
               <motion.circle
                 cx="0"
                 cy="0"
-                r="9"
+                r="14"
+                fill={active.pinealColor}
+                opacity={active.pinealOpacity * 0.4}
+                style={{ filter: "blur(5px)" }}
+              />
+              {/* Core */}
+              <motion.circle
+                cx="0"
+                cy="0"
+                r="8"
                 animate={{
                   fill: active.pinealColor,
                   opacity: active.pinealOpacity,
                 }}
                 transition={{ duration: 1 }}
                 style={{
-                  filter: `drop-shadow(0 0 12px ${active.pinealColor})`,
+                  filter: `drop-shadow(0 0 8px ${active.pinealColor})`,
                 }}
               />
-              <polyline
-                points="40,25 20,25 5,5"
-                fill="none"
-                stroke="rgba(255,255,255,0.4)"
-              />
-              <text
-                x="45"
-                y="29"
-                fill="#f8fafc"
-                fontSize="12"
-                textAnchor="start"
-                fontWeight="bold"
-              >
-                Pineal Gland
+              {/* Sci-fi Marker line */}
+              <polyline points="5,-5 20,-20 80,-20" fill="none" stroke="#64748b" strokeWidth="1" strokeDasharray="2 2" />
+              <text x="85" y="-16" fill="#cbd5e1" fontSize="12" fontFamily="monospace">
+                Pineal Gland <tspan x="85" y="0" fill="#64748b" fontSize="10">(Melatonin Production)</tspan>
               </text>
             </g>
           </g>
