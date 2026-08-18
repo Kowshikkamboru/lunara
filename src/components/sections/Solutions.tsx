@@ -63,14 +63,13 @@ export function Solutions() {
             {/* Premium Video Bezel */}
             <div className="relative z-10 mt-auto w-full aspect-video rounded-2xl p-2 bg-white/5 border border-white/10 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
               <div className="w-full h-full rounded-xl overflow-hidden relative bg-black">
-                <iframe 
-                  src="https://videos.sproutvideo.com/embed/799fdab71e1be6c6f0/2e07ad296a240f16?playerTheme=dark&playerColor=af3fd3&ambient=true" 
-                  className="absolute inset-0 w-full h-full"
-                  frameBorder="0"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  referrerPolicy="no-referrer"
+                <video 
+                  src="/1.webm" 
+                  className="absolute inset-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   title="Mechanism of Disease Video"
                 />
               </div>
@@ -146,14 +145,13 @@ export function Solutions() {
             
             <div className="relative z-10 lg:w-7/12 w-full aspect-video rounded-2xl p-2 bg-white/5 border border-white/10 shadow-[inset_0_0_20px_rgba(255,255,255,0.02)]">
               <div className="w-full h-full rounded-xl overflow-hidden relative bg-black">
-                <iframe 
-                  src="https://videos.sproutvideo.com/embed/449fdab71e18e7cdcd/33a518960f9a7410?playerTheme=dark&playerColor=af3fd3&ambient=true" 
-                  className="absolute inset-0 w-full h-full"
-                  frameBorder="0"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  referrerPolicy="no-referrer"
+                <video 
+                  src="/2.webm" 
+                  className="absolute inset-0 w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   title="Neuro-Optic Recovery Video"
                 />
               </div>
