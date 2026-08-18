@@ -311,17 +311,20 @@ function BrainCrossSection({
       color,
       emissive,
       emissiveIntensity: 0,
-      roughness: 0.75,
-      metalness: 0.05,
-      side: THREE.FrontSide,
+      roughness: 0.4,
+      metalness: 0.1,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.65,
+      depthWrite: false, // Prevents z-fighting artifacts on transparent overlapping meshes
       clippingPlanes: [sagittalPlane],
       clipShadows: true,
     });
 
-    const cerebrumMat = makeMat('#a278b5');     // Purple
-    const cerebellumMat = makeMat('#a8c49e');   // Green
-    const brainstemMat = makeMat('#e3c5b8');    // Tan/Pink
-    const corpusMat = makeMat('#b0c4de');       // Pale blue (corpus callosum)
+    const cerebrumMat = makeMat('#b399cc');     // Purple
+    const cerebellumMat = makeMat('#96c271');   // Green
+    const brainstemMat = makeMat('#e2a488');    // Tan/Peach
+    const corpusMat = makeMat('#9fa7b8');       // Grey/Blue (Diencephalon area)
     const defaultMat = makeMat('#a3a3a3');      // Grey default
 
     clone.traverse((child: any) => {
@@ -330,7 +333,7 @@ function BrainCrossSection({
         let mat = defaultMat;
         if (name.includes('cereb1')) {
           mat = cerebellumMat;
-        } else if (name.includes('stem1')) {
+        } else if (name.includes('stem1') || name.includes('pitua')) {
           mat = brainstemMat;
         } else if (name.includes('corpus1')) {
           mat = corpusMat;
@@ -421,6 +424,8 @@ function BrainCrossSection({
             roughness={0.9} 
             metalness={0.0} 
             side={THREE.FrontSide}
+            transparent={true}
+            opacity={0.15}
           />
         </mesh>
 
@@ -454,18 +459,41 @@ function BrainCrossSection({
           <pointLight color={pinealColor} intensity={0.5 * pinealOpacity} distance={60} />
         </group>
 
-        {/* Region Labels (positioned in model-space units) */}
-        <Html position={[0, 80, 10]} center zIndexRange={[10, 0]}>
-          <div className="text-white font-bold text-xs uppercase tracking-widest whitespace-nowrap drop-shadow-md">Cerebrum</div>
+        {/* Region Labels */}
+        {/* Cerebrum: left pointing */}
+        <Html position={[10, 60, 0]} style={{ transform: 'translate3d(-100%, -50%, 0)' }}>
+          <div className="flex items-center justify-end w-48 pointer-events-none drop-shadow-lg">
+            <div className="text-white font-bold text-[12px] uppercase tracking-wider whitespace-nowrap mr-3">Cerebrum</div>
+            <div className="h-[1px] w-20 bg-neutral-300" />
+            <div className="w-1.5 h-1.5 bg-red-500 rounded-full shadow-[0_0_6px_rgba(255,0,0,0.8)]" />
+          </div>
         </Html>
-        <Html position={[-60, 30, 10]} center zIndexRange={[10, 0]}>
-          <div className="text-white font-bold text-[10px] uppercase tracking-widest whitespace-nowrap drop-shadow-md">Diencephalon</div>
+
+        {/* Diencephalon: left pointing */}
+        <Html position={[-10, 10, 0]} style={{ transform: 'translate3d(-100%, -50%, 0)' }}>
+          <div className="flex items-center justify-end w-48 pointer-events-none drop-shadow-lg">
+            <div className="text-white font-bold text-[12px] uppercase tracking-wider whitespace-nowrap mr-3">Diencephalon</div>
+            <div className="h-[1px] w-24 bg-neutral-300" />
+            <div className="w-1.5 h-1.5 bg-red-500 rounded-full shadow-[0_0_6px_rgba(255,0,0,0.8)]" />
+          </div>
         </Html>
-        <Html position={[-20, -80, 10]} center zIndexRange={[10, 0]}>
-          <div className="text-white font-bold text-[10px] uppercase tracking-widest whitespace-nowrap drop-shadow-md">Brainstem</div>
+
+        {/* Brainstem: left pointing */}
+        <Html position={[-10, -50, 0]} style={{ transform: 'translate3d(-100%, -50%, 0)' }}>
+          <div className="flex items-center justify-end w-48 pointer-events-none drop-shadow-lg">
+            <div className="text-white font-bold text-[12px] uppercase tracking-wider whitespace-nowrap mr-3">Brainstem</div>
+            <div className="h-[1px] w-16 bg-neutral-300" />
+            <div className="w-1.5 h-1.5 bg-red-500 rounded-full shadow-[0_0_6px_rgba(255,0,0,0.8)]" />
+          </div>
         </Html>
-        <Html position={[90, 50, 10]} center zIndexRange={[10, 0]}>
-          <div className="text-white font-bold text-[10px] uppercase tracking-widest whitespace-nowrap drop-shadow-md">Cerebellum</div>
+
+        {/* Cerebellum: right pointing */}
+        <Html position={[60, -30, 0]} style={{ transform: 'translate3d(0, -50%, 0)' }}>
+          <div className="flex items-center justify-start w-48 pointer-events-none drop-shadow-lg">
+            <div className="w-1.5 h-1.5 bg-red-500 rounded-full shadow-[0_0_6px_rgba(255,0,0,0.8)]" />
+            <div className="h-[1px] w-24 bg-neutral-300" />
+            <div className="text-white font-bold text-[12px] uppercase tracking-wider whitespace-nowrap ml-3">Cerebellum</div>
+          </div>
         </Html>
 
       </Float>
