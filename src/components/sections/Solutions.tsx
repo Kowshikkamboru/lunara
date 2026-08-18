@@ -70,6 +70,7 @@ export function Solutions() {
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  referrerPolicy="no-referrer"
                   title="Mechanism of Disease Video"
                 />
               </div>
@@ -152,6 +153,7 @@ export function Solutions() {
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  referrerPolicy="no-referrer"
                   title="Neuro-Optic Recovery Video"
                 />
               </div>
