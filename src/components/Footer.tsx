@@ -22,17 +22,13 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
 };
 
+import { scrollTo } from '../utils/scrollTo';
+
 export function Footer() {
   const [isFocused, setIsFocused] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const handleSubscribe = (e: FormEvent) => {
     e.preventDefault();
@@ -136,7 +132,7 @@ export function Footer() {
                 <button onClick={() => scrollTo('approach')} className="text-sm text-neutral-400 hover:text-brand-cyan transition-colors text-left">Scientific Approach</button>
               </li>
               <li>
-                <button onClick={() => scrollTo('applications')} className="text-sm text-neutral-400 hover:text-brand-cyan transition-colors text-left">Clinical Applications</button>
+                <button onClick={() => scrollTo('solutions')} className="text-sm text-neutral-400 hover:text-brand-cyan transition-colors text-left">Capabilities & Solutions</button>
               </li>
               <li>
                 <button onClick={() => scrollTo('evidence')} className="text-sm text-neutral-400 hover:text-brand-cyan transition-colors text-left">Research & Evidence</button>

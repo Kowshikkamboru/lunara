@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { SceneWrapper } from '../canvas/SceneWrapper';
 import { FinalScene } from '../canvas/FinalScene';
 import { FadeInView, FadeInItem } from '../FadeInView';
+import { scrollTo } from '../../utils/scrollTo';
 
 export function FinalCTA() {
   const containerRef = useRef<HTMLElement>(null);
@@ -14,12 +15,6 @@ export function FinalCTA() {
 
   const textY = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
 
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section id="access" ref={containerRef} className="relative min-h-[80vh] flex items-center justify-center overflow-hidden border-t border-white/5">
@@ -55,7 +50,10 @@ export function FinalCTA() {
           </FadeInItem>
 
           <FadeInItem className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <button className="w-full sm:w-auto px-8 py-3 bg-white text-black font-semibold rounded-sm text-sm hover:bg-brand-cyan hover:text-white transition-colors duration-300">
+            <button 
+              onClick={() => window.location.href = 'mailto:contact@lunarabio.com'}
+              className="w-full sm:w-auto px-8 py-3 bg-white text-black font-semibold rounded-sm text-sm hover:bg-brand-cyan hover:text-white transition-colors duration-300"
+            >
               Talk to Our Team
             </button>
             <button 

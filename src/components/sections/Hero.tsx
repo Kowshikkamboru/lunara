@@ -4,15 +4,11 @@ import { SceneWrapper } from '../canvas/SceneWrapper';
 import { HeroScene } from '../canvas/HeroScene';
 import { FadeInView, FadeInItem } from '../FadeInView';
 
+import { scrollTo } from '../../utils/scrollTo';
+
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null);
 
-  const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section id="hero" ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-brand-night">
@@ -21,6 +17,8 @@ export function Hero() {
         <img 
           src="/eye_neu.png" 
           alt="Eye Neural Network" 
+          // @ts-ignore
+          fetchpriority="high"
           className="w-full h-full object-cover opacity-80 scale-105"
         />
       </div>

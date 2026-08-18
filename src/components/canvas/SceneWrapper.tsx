@@ -12,8 +12,8 @@ export function SceneWrapper({ children, className = "" }: SceneWrapperProps) {
     <div className={`w-full h-full ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 15], fov: 45 }}
-        dpr={[1, 2]}
-        gl={{ alpha: true, antialias: true }}
+        dpr={[1, 1.5]}
+        gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
       >
         <Suspense fallback={null}>
           {children}
