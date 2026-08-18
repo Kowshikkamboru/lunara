@@ -39,7 +39,7 @@ export function DeviceSequence() {
            } mix-blend-screen`}
            style={{ filter: "contrast(1.2) brightness(0.9)" }}
          >
-           <source src="/hero-bg.mp4" type="video/mp4" />
+           <source src="/hero-bg.webm" type="video/webm" />
          </video>
        </div>
        
