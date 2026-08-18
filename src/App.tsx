@@ -19,6 +19,14 @@ const FinalCTA = React.lazy(() => import('./components/sections/FinalCTA').then(
 const Footer = React.lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
 
 export default function App() {
+  React.useEffect(() => {
+    // Force browser to start at the top of the page on every reload
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-brand-night text-neutral-300 relative">
       <SmoothScroll />

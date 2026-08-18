@@ -1,24 +1,30 @@
 import { useRef, useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, useInView } from 'motion/react';
 import { Smartphone, Monitor, Eye } from 'lucide-react';
 
 export function DeviceSequence() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const isInView = useInView(containerRef, { margin: "0px" });
   
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.playbackRate = 0.65;
-      videoRef.current.play().then(() => {
-        setVideoLoaded(true);
-      }).catch(() => {
-        setVideoLoaded(false);
-      });
+      if (isInView) {
+        videoRef.current.play().then(() => {
+          setVideoLoaded(true);
+        }).catch(() => {
+          setVideoLoaded(false);
+        });
+      } else {
+        videoRef.current.pause();
+      }
     }
-  }, []);
+  }, [isInView]);
 
   return (
-    <div className="w-full h-full min-h-[400px] md:min-h-[500px] bg-black rounded-3xl border border-white/10 relative overflow-hidden flex items-center justify-center shadow-2xl shadow-brand-cyan/5">
+    <div ref={containerRef} className="w-full h-full min-h-[400px] md:min-h-[500px] bg-black rounded-3xl border border-white/10 relative overflow-hidden flex items-center justify-center shadow-2xl shadow-brand-cyan/5">
        {/* Cinematic Video Background */}
        <div className="absolute inset-0 z-0 overflow-hidden">
          <video 

@@ -8,8 +8,7 @@ export const scrollTo = (id: string, offset = -80) => {
   if (element && lenis) {
     lenis.scrollTo(element, { 
       offset, 
-      duration: 1.2, 
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) 
+      lerp: 0.08, // Use physics-based linear interpolation
     });
   } else if (element) {
     // Fallback if lenis is not initialized
@@ -20,13 +19,13 @@ export const scrollTo = (id: string, offset = -80) => {
 
 export function SmoothScroll() {
   useEffect(() => {
+    // Initialize Lenis with physics-based buttery scroll parameters
     lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.08, // The lower the value, the smoother/heavier the scroll
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 0.8, // Slightly slow down the mouse wheel for elegance
       touchMultiplier: 2,
     });
 

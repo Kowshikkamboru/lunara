@@ -69,6 +69,7 @@ export function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[0.2em] text-neutral-400 font-medium">
+            <button onClick={() => handleScrollTo('hero')} className="hover:text-brand-cyan transition-colors cursor-pointer text-white font-semibold">Home</button>
             <button onClick={() => handleScrollTo('problem')} className="hover:text-brand-cyan transition-colors cursor-pointer">The Problem</button>
             <button onClick={() => handleScrollTo('approach')} className="hover:text-brand-cyan transition-colors cursor-pointer">Science & Tech</button>
             <button onClick={() => handleScrollTo('solutions')} className="hover:text-brand-cyan transition-colors cursor-pointer">Solutions</button>
@@ -80,7 +81,7 @@ export function Header() {
               onClick={() => handleScrollTo('access')} 
               className="px-5 py-2 text-xs font-semibold uppercase tracking-wider rounded-sm bg-white text-brand-night hover:bg-brand-cyan hover:text-brand-night transition-all duration-300 shadow-sm hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] cursor-pointer"
             >
-              Access
+              CONTACT US
             </button>
           </div>
 
@@ -107,6 +108,7 @@ export function Header() {
             className="fixed inset-0 z-40 bg-brand-night/95 backdrop-blur-2xl flex flex-col justify-between p-6 pt-24"
           >
             <nav className="flex flex-col gap-6 text-2xl font-display mt-8">
+              <button onClick={() => handleScrollTo('hero')} className="text-left text-white hover:text-brand-cyan transition-colors border-b border-white/5 pb-4 font-semibold">Home</button>
               <button onClick={() => handleScrollTo('problem')} className="text-left text-white hover:text-brand-cyan transition-colors border-b border-white/5 pb-4">The Problem</button>
               <button onClick={() => handleScrollTo('approach')} className="text-left text-white hover:text-brand-cyan transition-colors border-b border-white/5 pb-4">Scientific Approach</button>
               <button onClick={() => handleScrollTo('solutions')} className="text-left text-white hover:text-brand-cyan transition-colors border-b border-white/5 pb-4">Solutions</button>
